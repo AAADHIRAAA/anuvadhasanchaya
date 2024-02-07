@@ -28,33 +28,33 @@ export default function Home() {
 
     const columns = useMemo(
         () => [
-            {
-                Header: "S.No",
-                accessor: (row, index) => index + 1, // Automatically generate serial number
-            },
+            // {
+            //     Header: "S.No",
+            //     accessor: (row, index) => index + 1, // Automatically generate serial number
+            // },
             {
                 Header: "Book Title",
                 accessor: "title",
             },
+            // {
+            //     Header: "ISBN",
+            //     accessor: "isbn",
+            // },
             {
-                Header: "ISBN",
-                accessor: "isbn",
+                Header: "Author",
+                accessor: "author",
             },
-            {
-                Header: "Language",
-                accessor: "language",
-            },
-
             {
                 Header: "Publisher",
                 accessor: "publisher",
             },
             {
-                Header: "Author/Editor Name",
-                accessor: "author_editor",
+                Header: "Language",
+                accessor: "language",
             },
+            
             {
-                Header: "Date",
+                Header: "Year",
                 accessor: (row) => {
                     const fullDate = row.Date;
                     if (fullDate) {
@@ -65,6 +65,20 @@ export default function Home() {
                     return "";
                 }
             },
+            {
+                Header: "Original Book",
+                accessor: "originalBook",
+            },
+            {
+                Header: " Original Author",
+                accessor: "originalAuthor",
+            },
+            {
+                Header: "Original Language",
+                accessor: "originalLanguage",
+            },
+           
+           
 
         ],
         []
@@ -314,9 +328,9 @@ export default function Home() {
                     
                         <Link href='/contribute'>
                         <button
-                          className='fixed top-10 right-20 btn btn-primary text-white'
+                          className='fixed bottom-10 left-1/2 transform -translate-x-1/2 btn btn-primary text-white rounded-full px-4 py-2 shadow-lg'
                           >
-                          Contribute
+                          Do you have a Book?
                         </button>
                         </Link>
                     
