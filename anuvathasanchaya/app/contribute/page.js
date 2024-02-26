@@ -46,7 +46,7 @@ const handleSubmit = async(e) => {
         formData.language.trim() === "" ||
         formData.subject.trim() === "" ||
         formData.author.trim() === "" ||
-        formData.isTranslation.trim()==""||
+        // formData.isTranslation.trim()==""||
         (formData.isTranslation === "yes" &&
             (formData.originalBook.trim() === "" ||
                 formData.originalLanguage.trim() === "" ||
@@ -66,6 +66,8 @@ const handleSubmit = async(e) => {
       });
       console.log(response.status);
       if(response.status===200){
+        console.log("ok");
+        setTranslate(false);
       setFormData({
         bookTitle: "",
         author: "",
@@ -83,6 +85,7 @@ const handleSubmit = async(e) => {
         url: "",
         isTranslation: "",
     });
+   
   }
     }
     catch(error){
@@ -99,7 +102,9 @@ const handleTranslationChange = (e) => {
       isTranslation: value
   });
 };
-
+useEffect(() => {
+  console.log(formData);
+}, [formData]); 
 
 return(
     <>
@@ -113,65 +118,65 @@ return(
     </div>
       <div className='mb-3'>
   <div class="form-group row" >
-    <label for="bookTitle" class="col-sm-2 col-form-label">BookTitle<span className="text-danger">*</span></label>
+    <label htmlFor="bookTitle" class="col-sm-2 col-form-label">BookTitle<span className="text-danger">*</span></label>
     <div class="col-sm-10">
-      <input type="text" class="form-control border border-black" id="bookTitle" name="bookTitle" placeholder="Enter book title" onChange={handleInputChange}/>
+      <input type="text" class="form-control border border-black" id="bookTitle" name="bookTitle" placeholder="Enter book title" value={formData.bookTitle} onChange={handleInputChange}/>
     </div>
   </div>
   </div>
   <div className='mb-3'>
   <div class="form-group row">
-    <label for="author" class="col-sm-2 col-form-label">Author<span className="text-danger">*</span></label>
+    <label htmlFor="author" class="col-sm-2 col-form-label">Author<span className="text-danger">*</span></label>
     <div class="col-sm-10">
-      <input type="text" class="form-control border border-black" id="author" name="author" placeholder="Enter Author Name" onChange={handleInputChange}/>
+      <input type="text" class="form-control border border-black" id="author" name="author" placeholder="Enter Author Name" value={formData.author} onChange={handleInputChange}/>
     </div>
   </div>
   </div>
   <div className='mb-3'>
   <div class="form-group row">
-    <label for="publisher" class="col-sm-2 col-form-label">Publisher</label>
+    <label htmlFor="publisher" class="col-sm-2 col-form-label">Publisher</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control border border-black" id="publisher" name="publisher" placeholder="Enter Publisher Name" onChange={handleInputChange}/>
+      <input type="text" class="form-control border border-black" id="publisher" name="publisher" placeholder="Enter Publisher Name" value={formData.publisher} onChange={handleInputChange}/>
     </div>
   </div>
   </div>
   <div className='mb-3'>
   <div class="form-group row">
-    <label for="editor" class="col-sm-2 col-form-label">Editor</label>
+    <label htmlFor="editor" class="col-sm-2 col-form-label">Editor</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control border border-black" id="editor"  name="editor" placeholder="Enter Editor Name" onChange={handleInputChange}/>
+      <input type="text" class="form-control border border-black" id="editor"  name="editor" placeholder="Enter Editor Name" value={formData.editor} onChange={handleInputChange}/>
     </div>
   </div>
   </div>
   <div className='mb-3'>
   <div class="form-group row">
-    <label for="subject" class="col-sm-2 col-form-label">Subject<span className="text-danger">*</span></label>
+    <label htmlFor="subject" class="col-sm-2 col-form-label">Subject<span className="text-danger">*</span></label>
     <div class="col-sm-10">
-      <input type="text" class="form-control border border-black" id="subject" name="subject" placeholder="Enter Subject/Genre" onChange={handleInputChange}/>
+      <input type="text" class="form-control border border-black" id="subject" name="subject" placeholder="Enter Subject/Genre" value={formData.subject}  onChange={handleInputChange}/>
     </div>
   </div>
   </div>
   <div className='mb-3'>
   <div class="form-group row">
-    <label for="language" class="col-sm-2 col-form-label">Language<span className="text-danger">*</span></label>
+    <label htmlFor="language" class="col-sm-2 col-form-label">Language<span className="text-danger">*</span></label>
     <div class="col-sm-10">
-      <input type="text" class="form-control border border-black" id="language" name="language" placeholder="Enter translated Language" onChange={handleInputChange}/>
+      <input type="text" class="form-control border border-black" id="language" name="language" placeholder="Enter translated Language" value={formData.language}  onChange={handleInputChange}/>
     </div>
   </div>
   </div>
   <div className='mb-3'>
   <div class="form-group row">
-    <label for="year" class="col-sm-2 col-form-label">Year</label>
+    <label htmlFor="year" class="col-sm-2 col-form-label">Year</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control border border-black" id="year" name="year" placeholder="Year of Publication" onChange={handleInputChange}/>
+      <input type="number" class="form-control border border-black" id="year" name="year" placeholder="Year of Publication" value={formData.year} onChange={handleInputChange}/>
     </div>
   </div>
   </div>
   <div className='mb-3'>
       <div class="form-group row">
-        <label for="url" class="col-sm-2 col-form-label">URL</label>
+        <label htmlFor="url" class="col-sm-2 col-form-label">URL</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control border border-black" id="url" name="url" placeholder="Enter Book URL" onChange={handleInputChange}/>
+          <input type="text" class="form-control border border-black" id="url" name="url" placeholder="Enter Book URL" value={formData.url} onChange={handleInputChange}/>
         </div>
       </div>
       </div>
@@ -181,14 +186,14 @@ return(
       <legend class="col-form-label col-sm-2 pt-0">Is It a translation?</legend>
       <div class="col-sm-10">
         <div class="form-check form-check-inline">
-          <input class="form-check-input border border-black" type="radio" name="isTranslation" id="yes" value="yes" onChange={handleTranslationChange}/>
-          <label class="form-check-label" for="yes">
+          <input class="form-check-input border border-black" type="radio" name="isTranslation" id="yes" value="yes"  onChange={handleTranslationChange}/>
+          <label class="form-check-label" htmlFor="yes">
             Yes
           </label>
         </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input border border-black" type="radio" name="isTranslation" id="no" value="No" onChange={handleTranslationChange}/>
-          <label class="form-check-label" for="no">
+          <label class="form-check-label" htmlFor="no">
             No
           </label>
         </div>
@@ -202,50 +207,50 @@ return(
     <div>
       <div className='mb-3'>
       <div class="form-group row">
-        <label for="originalBook" class="col-sm-2 col-form-label">OriginalBook<span className="text-danger">*</span></label>
+        <label htmlFor="originalBook" class="col-sm-2 col-form-label">OriginalBook<span className="text-danger">*</span></label>
         <div class="col-sm-10">
-          <input type="text" class="form-control border border-black" id="originalBook" name="originalBook" placeholder="Enter Original Book Name" onChange={handleInputChange}/>
+          <input type="text" class="form-control border border-black" id="originalBook" name="originalBook" placeholder="Enter Original Book Name" value={formData.originalBook} onChange={handleInputChange}/>
         </div>
       </div>
       </div>
       <div className='mb-3'>
       <div class="form-group row">
-        <label for="originalAuthor" class="col-sm-2 col-form-label">Author<span className="text-danger">*</span></label>
+        <label htmlFor="originalAuthor" class="col-sm-2 col-form-label">Author<span className="text-danger">*</span></label>
         <div class="col-sm-10">
-          <input type="text" class="form-control border border-black" id="originalAuthor"  name="originalAuthor"placeholder="Enter Author Name" onChange={handleInputChange}/>
+          <input type="text" class="form-control border border-black" id="originalAuthor"  name="originalAuthor"placeholder="Enter Author Name" value={formData.originalAuthor} onChange={handleInputChange}/>
         </div>
       </div>
       </div>
       <div className='mb-3'>
       <div class="form-group row">
-        <label for="originalPublisher" class="col-sm-2 col-form-label">Publisher</label>
+        <label htmlFor="originalPublisher" class="col-sm-2 col-form-label">Publisher</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control border border-black" id="originalPublisher" name="originalPublisher" placeholder="Enter Publisher Name" onChange={handleInputChange}/>
+          <input type="text" class="form-control border border-black" id="originalPublisher" name="originalPublisher" placeholder="Enter Publisher Name" value={formData.originalPublisher} onChange={handleInputChange}/>
         </div>
       </div>
       </div>
       <div className='mb-3'>
       <div class="form-group row">
-        <label for="originalLanguage" class="col-sm-2 col-form-label">Language<span className="text-danger">*</span></label>
+        <label htmlFor="originalLanguage" class="col-sm-2 col-form-label">Language<span className="text-danger">*</span></label>
         <div class="col-sm-10">
-          <input type="text" class="form-control border border-black" id="originalLanguage" name="originalLanguage" placeholder="Enter Original Language" onChange={handleInputChange}/>
+          <input type="text" class="form-control border border-black" id="originalLanguage" name="originalLanguage" placeholder="Enter Original Language" value={formData.originalLanguage}  onChange={handleInputChange}/>
         </div>
       </div>
       </div>
     
       <div className='mb-3'>
       <div class="form-group row">
-        <label for="originalYear" class="col-sm-2 col-form-label">Year</label>
+        <label htmlFor="originalYear" class="col-sm-2 col-form-label">Year</label>
         <div class="col-sm-10">
-          <input type="number" class="form-control border border-black" id="originalYear" name="originalYear" placeholder="Year of Publication" onChange={handleInputChange}/>
+          <input type="number" class="form-control border border-black" id="originalYear" name="originalYear" placeholder="Year of Publication" value={formData.originalYear}  onChange={handleInputChange}/>
         </div>
       </div>
       </div>
       <div className='mb-3'>
       <div class="form-group row">
-        <label for="originalUrl" class="col-sm-2 col-form-label">OriginalURL</label>
+        <label htmlFor="originalUrl" class="col-sm-2 col-form-label">OriginalURL</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control border border-black" id="originalUrl" name="originalUrl" placeholder="Enter Original Book URL" onChange={handleInputChange}/>
+          <input type="text" class="form-control border border-black" id="originalUrl" name="originalUrl" placeholder="Enter Original Book URL" value={formData.originalUrl}  onChange={handleInputChange}/>
         </div>
       </div>
       </div>

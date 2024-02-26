@@ -3,14 +3,13 @@ const express = require('express');
 const router =express.Router();
 const Book=require("./models/bookModel");
 
-console.log("bookrouter");
 router.post('/create',async(req,res)=>{
     try{
         console.log("call");
         const{
             formData
         }=req.body
-        console.log(req.body);
+       
         const book = await Book.create({
             bookTitle:formData.bookTitle,
             author:formData.author,
@@ -28,7 +27,7 @@ router.post('/create',async(req,res)=>{
             url:formData.url,
             isTranslation:formData.isTranslation=="yes"?true:false,
         });
-        console.log(book);
+   
         return res.status(200).json({message:"Book created successfully"});
     }
     catch(error){
