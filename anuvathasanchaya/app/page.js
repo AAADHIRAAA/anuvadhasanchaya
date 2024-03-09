@@ -6,6 +6,7 @@ import {BiChevronDown, BiChevronUp, BiSearch,BiX} from "react-icons/bi";
 // import InfiniteScroll from "react-infinite-scroll-component";
 import axios from 'axios';
 import Link from 'next/link';
+import RazorpayButton from './components/razorpay';
 
 export default function Home() {
 
@@ -34,7 +35,7 @@ export default function Home() {
             // },
             {
                 Header: "Book Title",
-                accessor: "title",
+                accessor: "bookTitle",
             },
             // {
             //     Header: "ISBN",
@@ -55,15 +56,7 @@ export default function Home() {
             
             {
                 Header: "Year",
-                accessor: (row) => {
-                    const fullDate = row.Date;
-                    if (fullDate) {
-
-                        const year = new Date(fullDate).getFullYear();
-                        return year;
-                    }
-                    return "";
-                }
+                accessor: "year"
             },
             {
                 Header: "Original Book",
@@ -90,7 +83,7 @@ export default function Home() {
             console.log("call", page)
 
             const response = await fetch(
-                `http://localhost:8000/books/viewbooks?page=${page}`
+                `http://localhost:8000/translation/viewbooks?page=${page}`
             );
             if (!response.ok) {
                 console.error(`HTTP error! Status: ${response.status}`);
@@ -98,7 +91,7 @@ export default function Home() {
 
             const fetchedDatum = await response.json();
             setFetchedData(fetchedDatum);
-
+            console.log(fetchedDatum);
         } catch (error) {
             setPage(prevState=>prevState);
             console.error("Error fetching data:", error.message);
@@ -156,7 +149,7 @@ export default function Home() {
     };
 
     const handleSearchClick = () => {
-        axios.get(`http://localhost:8000/books/find/${searchQuery}`)
+        axios.get(`http://localhost:8000/translation/find/${searchQuery}`)
                 .then(response => {
                 console.log(response.data);
                 const fetchedData = response.data;
@@ -171,15 +164,15 @@ export default function Home() {
         
     };
 
-    const handleClearClick = () => {
-        setSearchQuery('');
-        setVisibleData([]);  // Reset filterData when clearing the search
-    };
+    // const handleClearClick = () => {
+    //     setSearchQuery('');
+    //     setVisibleData([]);  // Reset filterData when clearing the search
+    // };
 
     const totalbooks = async()=>{
         try{
 
-            const response = await fetch('http://localhost:8000/books/count');
+            const response = await fetch('http://localhost:8000/translation/count');
             if (!response.ok) {
                 console.error(`HTTP error! Status: ${response.status}`);
             }
@@ -224,21 +217,35 @@ export default function Home() {
         }
     }); // Add dependencies as needed
 
+    useEffect(() => {
+        // Check if the search query is empty
+        if (searchQuery === '') {
+            setVisibleData([]); // Clear the search result
+        }
+    }, [searchQuery]);
+
     return (
         <>
+        <div className='flex justify-center mt-5'><RazorpayButton/></div>
             <div style={{marginTop: "50px"}} ref={scrollRef} className={"h-[90vh] overflow-x-auto"}>
                 <div className="container mx-auto">
-
-                    <div className="mb-4 w-50 mx-auto input-group">
-
+                
+                    <div className="mb-4 w-50 mx-auto gap-4 input-group items-center ">
+                        
                         <input
                             type="text"
                             placeholder="Enter translated book"
                             className="form-control mx-auto w-50"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleSearchClick(); // Call the search function
+                                }
+                            }}
                         />
-                        <button
+                       Total Books: {count}
+                        {/* <button
                             className="btn btn-primary"
                           onClick={handleSearchClick}
                         >
@@ -251,13 +258,13 @@ export default function Home() {
                             >
                                 <BiX/>
                             </button>
-                        )}
+                        )} */}
                     </div>
 
                     <div className=" " >
                         <table
                             {...getTableProps()}
-                            className="table table-bordered table-hover"
+                            className="table table-striped table-hover"
                             style={{maxWidth: "100%"}}
 
                         >
@@ -270,12 +277,12 @@ export default function Home() {
                                             {...column.getHeaderProps(
                                                 column.getSortByToggleProps()
                                             )}
-                                            className="px-2 py-2 text-sm sm:text-base bg-primary text-white"
+                                            className="px-2 py-2 text-sm sm:text-base text-black"
                                         >
                                             {column.render("Header")}
-                                            {column.isSorted && (
+                                            {/* {column.isSorted && (
                                                 <span>{column.isSortedDesc ? " ⬇️ " : " ⬆️ "}</span>
-                                            )}
+                                            )} */}
                                         </th>
                                     ))}
                                 </tr>
@@ -319,16 +326,12 @@ export default function Home() {
 
                     </button>
 
-                    <button
-                    className='fixed top-10 left-20'
-                    >
-                        Total Books: {count}
-                    </button>
+                  
 
                     
                         <Link href='/contribute'>
                         <button
-                          className='fixed bottom-10 left-1/2 transform -translate-x-1/2 btn btn-primary text-white rounded-full px-4 py-2 shadow-lg'
+                          className='fixed bottom-10 left-1/2 transform -translate-x-1/2 btn  text-black rounded-full px-4 py-2 shadow-lg'
                           >
                           Do you have a Book?
                         </button>

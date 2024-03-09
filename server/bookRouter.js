@@ -5,7 +5,6 @@ const Book=require("./models/bookModel");
 
 router.post('/create',async(req,res)=>{
     try{
-        console.log("call");
         const{
             formData
         }=req.body
@@ -66,7 +65,7 @@ router.get('/viewbooks',async(req,res)=>{
 
 router.get('/find/:search',async(req,res)=>{
     try{
-        console.log("call");
+       
         const search = req.params.search;
         const data = await Book.findOne({bookTitle:search});
         if(!data){
